@@ -7,15 +7,15 @@ To solve the problem, you need to complete the following steps:
 
 Note: Classes provided in this exercise will show compilation errors when the exercise is cloned locally. You need to go through the comments thoroughly and complete the application.
 
-      1. Manage Dependencies in pom.xml.
+      1. Manage dependencies in pom.xml.
       2. Complete the classes and methods by analyzing the test code, so that there are no compilation errors.
       3. Implement the functionality of the methods, and ensure that all the test cases pass.
       4. Test in Postman to see the custom exception messages thrown.
 
   **Requirements**   
--   Use ControllerAdvice to handle Exceptions globally
--   Throw BlogNotFoundException if Blog is not present
--   Throw BlogAlreadyExistsException if Blog already exists
+-   Use ControllerAdvice to handle exceptions globally
+-   Throw BlogNotFoundException if blog is not present
+-   Throw BlogAlreadyExistsException if blog already exists
    
 
 ### Instructions

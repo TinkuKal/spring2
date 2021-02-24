@@ -1,6 +1,8 @@
 package com.stackroute.controller;
 
 import com.stackroute.domain.Blog;
+import com.stackroute.exceptions.BlogAlreadyExistsException;
+import com.stackroute.exceptions.BlogNotFoundException;
 import com.stackroute.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/")
 public class BlogController {
 
+    @Autowired
     private BlogService blogService;
 
     @Autowired
@@ -30,7 +33,7 @@ public class BlogController {
 
     /* This method saves a blog and returns the blog object */
     @PostMapping("/blog")
-    public ResponseEntity<Blog> saveBlog(@RequestBody Blog blog){
+    public ResponseEntity<Blog> saveBlog(@RequestBody Blog blog) throws BlogAlreadyExistsException {
         Blog savedBlog = blogService.saveBlog(blog);
         return new ResponseEntity<Blog>(savedBlog, HttpStatus.CREATED);
     }
@@ -44,20 +47,20 @@ public class BlogController {
 
     /* This method fetches a blog by its id and returns the respective blog */
     @GetMapping("blog/{blogId}")
-    public ResponseEntity<Blog> getBlogById(@PathVariable("blogId") int blogId) {
+    public ResponseEntity<Blog> getBlogById(@PathVariable("blogId") int blogId) throws BlogNotFoundException {
         return new ResponseEntity<Blog>(blogService.getBlogById(blogId), HttpStatus.OK);
     }
 
 
     /* This method deletes a blog by its id and returns the deleted blog object */
     @DeleteMapping("blog/{blogId}")
-    public ResponseEntity<Blog> getBlogAfterDeleting(@PathVariable("blogId") int blogId) {
+    public ResponseEntity<Blog> getBlogAfterDeleting(@PathVariable("blogId") int blogId) throws BlogNotFoundException {
         return new ResponseEntity<Blog>(blogService.deleteBlog(blogId), HttpStatus.OK);
     }
 
     /* This method updates the blog content and returns the updated blog object */
     @PutMapping("blog")
-    public ResponseEntity<?> updateBlog(@RequestBody Blog blog)  {
+    public ResponseEntity<?> updateBlog(@RequestBody Blog blog) throws BlogNotFoundException {
         Blog updatedBlog = blogService.updateBlog(blog);
         return new ResponseEntity<>(updatedBlog, HttpStatus.OK);
     }

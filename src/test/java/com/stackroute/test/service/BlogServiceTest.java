@@ -1,6 +1,8 @@
 package com.stackroute.test.service;
 
 import com.stackroute.domain.Blog;
+import com.stackroute.exceptions.BlogAlreadyExistsException;
+import com.stackroute.exceptions.BlogNotFoundException;
 import com.stackroute.repository.BlogRepository;
 import com.stackroute.service.BlogServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -49,7 +51,7 @@ class BlogServiceTest {
     }
 
     @Test
-    public void givenBlogToSaveThenShouldNotReturnSavedBlog() throws BlogAlreadyExistsException {
+    public void givenBlogToSaveThenShouldNotReturnSavedBlog() {
         when(blogRepository.save(blog)).thenThrow(new BlogAlreadyExistsException());
         Assertions.assertThrows(BlogAlreadyExistsException.class, () ->
                 blogService.saveBlog(blog));
@@ -57,7 +59,7 @@ class BlogServiceTest {
     }
 
     @Test
-    void givenGetAllBlogsThenShouldReturnListOfAllBlogs() throws BlogNotFoundException, Exception {
+    void givenGetAllBlogsThenShouldReturnListOfAllBlogs() throws Exception {
         blogRepository.save(blog);
         //stubbing the mock to return specific data
         when(blogRepository.findAll()).thenReturn(blogList);
@@ -86,7 +88,7 @@ class BlogServiceTest {
     }
 
     @Test
-    void givenBlogIdToDeleteThenShouldNotReturnDeletedBlog() throws BlogNotFoundException {
+    void givenBlogIdToDeleteThenShouldNotReturnDeletedBlog() {
         when(blogRepository.findById(blog.getBlogId())).thenThrow(BlogNotFoundException.class);
         Assertions.assertThrows(BlogNotFoundException.class, () ->
                 blogService.deleteBlog(1));
@@ -105,7 +107,7 @@ class BlogServiceTest {
     }
 
     @Test
-    public void givenBlogToUpdateThenShouldNotReturnUpdatedBlog() throws BlogNotFoundException {
+    public void givenBlogToUpdateThenShouldNotReturnUpdatedBlog() {
         when(blogRepository.existsById(blog.getBlogId())).thenReturn(false);
         Assertions.assertThrows(BlogNotFoundException.class, () ->
                 blogService.updateBlog(blog));
